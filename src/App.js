@@ -1,13 +1,10 @@
 import React, { Component } from "react";
 import axios from "axios";
-import { Button } from "primereact/button";
 import Deck from "./Deck";
+import Heading from "./Heading";
 
 // CSS Dependencies
-import "./App.css";
-import "primereact/resources/themes/nova-light/theme.css";
-import "primereact/resources/primereact.min.css";
-import "primeicons/primeicons.css";
+import "./App.scss";
 
 export default class App extends Component {
   state = {
@@ -53,18 +50,14 @@ export default class App extends Component {
   render() {
     return (
       <div className="App">
-        <h1>App</h1>
+        <Heading>Pick a card</Heading>
         <div className="buttonContainer">
-          <Button
-            className="deckButton"
-            label="Get New Deck"
-            onClick={this.getNewDeck}
-          />
-          <Button
-            className="deckButton"
-            label="Draw Card"
-            onClick={this.drawCard}
-          />
+          <button className="appButton" onClick={this.getNewDeck}>
+            Get New Deck
+          </button>
+          <button className="appButton" onClick={this.drawCard}>
+            Draw Card
+          </button>
         </div>
         <Deck cards={this.state.cardsDrawn} />
       </div>
