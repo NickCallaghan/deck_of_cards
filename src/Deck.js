@@ -8,7 +8,7 @@ export default class Deck extends Component {
       <div className="deck">
         <div className="deck-container">
           {this.props.cards.map(card => (
-            <Card card={card} />
+            <Card card={card} key={card.code} />
           ))}
         </div>
       </div>
