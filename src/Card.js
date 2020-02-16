@@ -2,27 +2,19 @@ import React, { Component } from "react";
 import "./Card.scss";
 
 export default class Card extends Component {
-  state = {
-    rotation: 0
-  };
-
-  randomRotation = () => {
+  constructor(props) {
+    super(props);
+    //Set the rotation and translate of the card
     let rotation = Math.floor(Math.random() * 25);
-    rotation *= Math.floor(Math.random() * 2) === 1 ? 1 : -1; // this will add minus sign in 50% of cases
-    this.setState({ rotation });
-  };
-
-  componentDidMount() {
-    this.randomRotation();
+    rotation *= Math.floor(Math.random() * 2) === 1 ? 1 : -1;
+    let xPos = Math.floor(Math.random() * 25);
+    let yPos = Math.floor(Math.random() * 25);
+    this._transform = `translate(${xPos}px, ${yPos}px) rotate(${rotation}deg)`;
   }
 
   render() {
-    let styles = {
-      transform: `rotate(${this.state.rotation}deg)`
-    };
-
     return (
-      <div className="card" style={styles}>
+      <div className="card" style={{ transform: this._transform }}>
         <img
           src={this.props.card.images.png}
           alt={`${this.props.card.value} of ${this.props.card.suit}`}
