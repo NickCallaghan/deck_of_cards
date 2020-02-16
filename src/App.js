@@ -14,21 +14,29 @@ export default class App extends Component {
 
   getNewDeck = async () => {
     // Fetch new deck
-    const url = "https://deckofcardsapi.com/api/deck/new/shuffle";
-    const response = await axios.get(url);
-    const deck = await response.data;
-    this.setState({
-      deck,
-      cardsDrawn: []
-    });
+    try {
+      const url = "https://deckofcardsapi.com/api/deck/new/shuffle";
+      const response = await axios.get(url);
+      const deck = await response.data;
+      this.setState({
+        deck,
+        cardsDrawn: []
+      });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   updateDeck = async deckId => {
     // Update deck to state
-    const url = `https://deckofcardsapi.com/api/deck/${deckId}`;
-    const response = await axios.get(url);
-    const deck = await response.data;
-    this.setState({ deck });
+    try {
+      const url = `https://deckofcardsapi.com/api/deck/${deckId}`;
+      const response = await axios.get(url);
+      const deck = await response.data;
+      this.setState({ deck });
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   async componentDidMount() {
@@ -38,13 +46,22 @@ export default class App extends Component {
 
   drawCard = async () => {
     // Draw a new card from the current deck
-    const url = `https://deckofcardsapi.com/api/deck/${this.state.deck.deck_id}/draw/`;
-    const resp = await axios.get(url);
-    const data = await resp.data;
-    this.setState(st => ({
-      cardsDrawn: [...st.cardsDrawn, ...data.cards]
-    }));
-    this.updateDeck(this.state.deck.deck_id);
+    try {
+      //Try and draw another card from the API
+      if (this.state.deck.remaining === 0) {
+        alert("No Cards Left");
+        return;
+      }
+      const url = `https://deckofcardsapi.com/api/deck/${this.state.deck.deck_id}/draw/`;
+      const resp = await axios.get(url);
+      const data = await resp.data;
+      this.setState(st => ({
+        cardsDrawn: [...st.cardsDrawn, ...data.cards]
+      }));
+      this.updateDeck(this.state.deck.deck_id);
+    } catch (err) {
+      console.error(err);
+    }
   };
 
   render() {
